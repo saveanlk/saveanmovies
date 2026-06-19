@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAVEAN MOVIES - Premium Cinematic Streaming</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="cinematic-bg" id="particleBg"></div>
+
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <div class="auth-overlay active" id="profileOverlay">
+        <div class="profile-container">
+            <h1 class="brand-title">SAVEAN MOVIES</h1>
+            <h2>Who's watching?</h2>
+            <div class="profile-grid" id="profileGrid">
+                <div class="profile-card" data-user="Alex">
+                    <div class="avatar" style="background: linear-gradient(45deg, #12c2e9, #c471ed, #f64f59);">
+                        <i class="fas fa-user-astronaut"></i>
+                    </div>
+                    <span class="profile-name">Alex</span>
+                </div>
+                <div class="profile-card" data-user="Sarah">
+                    <div class="avatar" style="background: linear-gradient(45deg, #b92b27, #1565c0);">
+                        <i class="fas fa-user-ninja"></i>
+                    </div>
+                    <span class="profile-name">Sarah</span>
+                </div>
+                <div class="profile-card" data-user="Kids">
+                    <div class="avatar" style="background: linear-gradient(45deg, #00b09b, #96c93d);">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <span class="profile-name">Kids</span>
+                </div>
+                <div class="profile-card add-profile">
+                    <div class="avatar">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <span class="profile-name">Add Profile</span>
+                </div>
+            </div>
+            <button class="manage-profiles-btn">Manage Profiles</button>
+        </div>
+    </div>
+
+    <div class="auth-overlay hidden" id="authOverlay">
+        <div class="auth-card glass-panel">
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tabLogin">Sign In</button>
+                <button class="auth-tab" id="tabRegister">Sign Up</button>
+            </div>
+            
+            <form id="loginForm" class="auth-form">
+                <h2 class="brand-title">SAVEAN MOVIES</h2>
+                <div class="input-group">
+                    <input type="email" required placeholder="Email or phone number">
+                </div>
+                <div class="input-group">
+                    <input type="password" required placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+                <div class="form-help">
+                    <label><input type="checkbox" checked> Remember me</label>
+                    <a href="#" id="forgotPasswordLink">Need help?</a>
+                </div>
+            </form>
+
+            <form id="registerForm" class="auth-form hidden">
+                <h2 class="brand-title">SAVEAN MOVIES</h2>
+                <div class="input-group">
+                    <input type="text" required placeholder="Profile Name">
+                </div>
+                <div class="input-group">
+                    <input type="email" required placeholder="Email Address">
+                </div>
+                <div class="input-group">
+                    <input type="password" required placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+            </form>
+
+            <div id="forgotForm" class="auth-form hidden">
+                <h2>Reset Password</h2>
+                <p>We will send you an email with instructions on how to reset your password.</p>
+                <div class="input-group">
+                    <input type="email" required placeholder="name@example.com">
+                </div>
+                <button type="button" class="btn btn-primary btn-full" id="btnResetPass">Send Email</button>
+                <button type="button" class="btn btn-text btn-full" id="backToLogin">Back to Sign In</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="sidebar" id="mainSidebar">
+        <div class="logo-container">
+            <span class="logo-text">SAVEAN <span class="accent-text">MOVIES</span></span>
+            <button class="toggle-sidebar-btn" id="toggleSidebar"><i class="fas fa-chevron-left"></i></button>
+        </div>
+        <div class="nav-menu">
+            <a href="#" class="nav-link active" data-target="homeView"><i class="fas fa-home"></i><span>Home</span></a>
+            <a href="#" class="nav-link" data-target="moviesView"><i class="fas fa-film"></i><span>Movies</span></a>
+            <a href="#" class="nav-link" data-target="tvView"><i class="fas fa-tv"></i><span>TV Shows</span></a>
+            <a href="#" class="nav-link" data-target="originalsView"><i class="fas fa-crown"></i><span>Originals</span></a>
+            <a href="#" class="nav-link" data-target="trendingView"><i class="fas fa-fire"></i><span>Trending</span></a>
+            <hr class="nav-divider">
+            <a href="#" class="nav-link" data-target="myListView"><i class="fas fa-bookmark"></i><span>My List</span></a>
+            <a href="#" class="nav-link" data-target="downloadsView"><i class="fas fa-download"></i><span>Downloads</span></a>
+            <a href="#" class="nav-link" data-target="historyView"><i class="fas fa-history"></i><span>History</span></a>
+        </div>
+        <div class="sidebar-footer">
+            <button class="sidebar-action-btn" id="searchTrigger"><i class="fas fa-search"></i><span>Search</span></button>
+            <div class="user-profile-trigger" id="profileTrigger">
+                <div class="current-avatar" id="currentAvatarHeader"><i class="fas fa-user-astronaut"></i></div>
+                <span id="currentProfileName">Alex</span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="mobile-header">
+        <span class="logo-text">SAVEAN</span>
+        <div class="mobile-actions">
+            <button id="mobileSearchBtn"><i class="fas fa-search"></i></button>
+            <button id="mobileProfileBtn"><i class="fas fa-user"></i></button>
+        </div>
+    </header>
+
+    <main class="main-content" id="mainContent">
+
+        <section id="homeView" class="view-section active">
+            <div class="hero-banner" id="heroBanner">
+                <div class="hero-video-container" id="heroVideoContainer"></div>
+                <div class="hero-image" id="heroImage"></div>
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <span class="hero-badge"><i class="fas fa-crown"></i> SAVEAN ORIGINAL</span>
+                    <h1 class="hero-title" id="heroTitle">CHRONICLES OF SAVEAN</h1>
+                    <div class="hero-meta">
+                        <div class="stars" id="heroStars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span id="heroYear">2026</span>
+                        <span class="age-badge" id="heroAge">16+</span>
+                        <span id="heroDuration">2h 45m</span>
+                        <span id="heroGenre" class="genre-tag">Sci-Fi / Action</span>
+                    </div>
+                    <p class="hero-description" id="heroDesc">
+                        In a dystopian universe ruled by digital shadows, a rogue alliance fights to salvage the last remaining human consciousness inside the core engines of SAVEAN.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" id="heroPlayBtn"><i class="fas fa-play"></i> Watch Now</button>
+                        <button class="btn btn-secondary" id="heroTrailerBtn"><i class="fas fa-film"></i> Trailer</button>
+                        <button class="btn btn-icon" id="heroMyListBtn" title="Add to List"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+                <div class="hero-indicators" id="heroIndicators"></div>
+            </div>
+
+            <div class="row-container top10-container">
+                <h2 class="row-title">Top 10 Hits on SAVEAN MOVIES</h2>
+                <div class="carousel-wrapper">
+                    <button class="slider-arrow left-arrow"><i class="fas fa-chevron-left"></i></button>
+                    <div class="top10-slider" id="top10Slider"></div>
+                    <button class="slider-arrow right-arrow"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <div class="row-container hidden" id="continueWatchingRow">
+                <h2 class="row-title">Continue Watching</h2>
+                <div class="carousel-wrapper">
+                    <button class="slider-arrow left-arrow"><i class="fas fa-chevron-left"></i></button>
+                    <div class="movie-row" id="continueRow"></div>
+                    <button class="slider-arrow right-arrow"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <div id="dynamicRows"></div>
+        </section>
+
+        <section id="moviesView" class="view-section hidden">
+            <div class="view-header"><h1>Cinematic Movies</h1></div>
+            <div class="grid-container" id="moviesGrid"></div>
+        </section>
+
+        <section id="tvView" class="view-section hidden">
+            <div class="view-header"><h1>Premium TV Series</h1></div>
+            <div class="grid-container" id="tvGrid"></div>
+        </section>
+
+        <section id="originalsView" class="view-section hidden">
+            <div class="view-header"><h1>SAVEAN Originals Exclusive</h1></div>
+            <div class="grid-container" id="originalsGrid"></div>
+        </section>
+
+        <section id="trendingView" class="view-section hidden">
+            <div class="view-header"><h1>Trending Worldwide</h1></div>
+            <div class="grid-container" id="trendingGrid"></div>
+        </section>
+
+        <section id="myListView" class="view-section hidden">
+            <div class="view-header"><h1>My Custom Watchlist</h1></div>
+            <div class="grid-container" id="myListGrid"></div>
+            <div class="empty-state hidden" id="myListEmpty">
+                <i class="fas fa-bookmark"></i>
+                <p>Your library is empty. Discover and save titles now.</p>
+            </div>
+        </section>
+
+        <section id="downloadsView" class="view-section hidden">
+            <div class="view-header">
+                <h1>Offline Storage & Downloads</h1>
+                <div class="storage-container glass-panel">
+                    <span><i class="fas fa-hdd"></i> App Allocated Storage</span>
+                    <div class="storage-bar"><div class="storage-fill" style="width: 28%"></div></div>
+                    <span class="storage-text">14.2 GB of 50.0 GB Used</span>
+                </div>
+            </div>
+            <div class="download-queue" id="downloadQueueList"></div>
+        </section>
+
+        <section id="historyView" class="view-section hidden">
+            <div class="view-header">
+                <h1>Watch History Logs</h1>
+                <button class="btn btn-secondary btn-sm" id="clearHistoryBtn"><i class="fas fa-trash"></i> Clear History</button>
+            </div>
+            <div class="history-list" id="historyLogList"></div>
+            <div class="empty-state hidden" id="historyEmpty">
+                <i class="fas fa-history"></i>
+                <p>No watch logs detected for this session profile.</p>
+            </div>
+        </section>
+
+        <footer class="cinematic-footer">
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h3>SAVEAN MOVIES</h3>
+                    <a href="#">About Corporate</a>
+                    <a href="#">Careers Portal</a>
+                    <a href="#">Press Relations</a>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal Affairs</h3>
+                    <a href="#">Terms of Use</a>
+                    <a href="#">Privacy Statements</a>
+                    <a href="#">Cookie Choices</a>
+                </div>
+                <div class="footer-column">
+                    <h3>Support Hub</h3>
+                    <a href="#">FAQ Helpdesk</a>
+                    <a href="#">Account Control</a>
+                    <a href="#">Redeem Giftcards</a>
+                </div>
+                <div class="footer-column">
+                    <h3>Connect With Us</h3>
+                    <div class="social-row">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-credits">
+                <p>&copy; 2026 SAVEAN MOVIES Corp. Built with premium custom components. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </main>
+
+    <nav class="mobile-nav">
+        <a href="#" class="mobile-link active" data-target="homeView"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="#" class="mobile-link" data-target="moviesView"><i class="fas fa-film"></i><span>Movies</span></a>
+        <a href="#" class="mobile-link" data-target="myListView"><i class="fas fa-bookmark"></i><span>My List</span></a>
+        <a href="#" class="mobile-link" id="mobileSearchTrigger"><i class="fas fa-search"></i><span>Search</span></a>
+    </nav>
+
+    <div class="search-overlay hidden" id="searchOverlay">
+        <div class="search-box-header">
+            <div class="search-input-wrapper">
+                <i class="fas fa-search search-icon-main"></i>
+                <input type="text" id="searchInput" placeholder="Search by title, cast, directors, or genres..." autocomplete="off">
+                <button id="clearSearchInputBtn"><i class="fas fa-times"></i></button>
+            </div>
+            <button class="close-search-btn" id="closeSearchBtn">Close <i class="fas fa-times"></i></button>
+        </div>
+        <div class="search-body">
+            <div class="search-filters glass-panel">
+                <div class="filter-group">
+                    <label>Genre Selector</label>
+                    <select id="filterGenre">
+                        <option value="all">All Genres</option>
+                        <option value="Action">Action</option>
+                        <option value="Sci-Fi">Sci-Fi</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Anime">Anime</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Release Timeline</label>
+                    <select id="filterYear">
+                        <option value="all">All Years</option>
+                        <option value="2026">2026 Releases</option>
+                        <option value="2025">2025 Releases</option>
+                        <option value="2024">2024 Releases</option>
+                        <option value="classic">Retro & Classics</option>
+                    </select>
+                </div>
+                <div class="search-history-box">
+                    <span class="label">Recent Queries:</span>
+                    <div id="historyKeywords"></div>
+                </div>
+            </div>
+            <div class="search-results-container">
+                <h2 id="searchResultTitle">Top Searches & Suggestions</h2>
+                <div class="grid-container" id="searchResultsGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay hidden" id="detailsModal">
+        <div class="modal-container glass-panel">
+            <button class="close-modal-btn" id="closeModalBtn"><i class="fas fa-times"></i></button>
+            <div class="modal-hero" id="modalHero">
+                <div class="modal-hero-overlay"></div>
+                <div class="modal-hero-content">
+                    <h1 id="modalTitle">Movie Title</h1>
+                    <div class="modal-meta">
+                        <span id="modalStars" class="stars"></span>
+                        <span id="modalYear">2026</span>
+                        <span class="age-badge" id="modalAge">18+</span>
+                        <span id="modalDuration">2h 10m</span>
+                    </div>
+                    <div class="modal-actions-row">
+                        <button class="btn btn-primary" id="modalPlayBtn"><i class="fas fa-play"></i> Stream Title</button>
+                        <button class="btn btn-secondary" id="modalTrailerBtn"><i class="fas fa-film"></i> View Trailer</button>
+                        <button class="btn btn-icon" id="modalListBtn"><i class="fas fa-plus"></i></button>
+                        <button class="btn btn-icon" id="modalDownloadBtn"><i class="fas fa-download"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body-content">
+                <div class="modal-main-details">
+                    <p class="modal-description" id="modalDesc">Comprehensive description text goes inside here.</p>
+                    <div class="cast-crew-block">
+                        <p><strong>Director:</strong> <span id="modalDirector" class="highlight-text">Director Name</span></p>
+                        <p><strong>Starring Cast:</strong> <span id="modalCast" class="highlight-text">Starring talent elements</span></p>
+                        <p><strong>Genres:</strong> <span id="modalGenres">Action, Thriller</span></p>
+                    </div>
+                </div>
+                <div class="similar-titles-section">
+                    <h3>More Titles Like This</h3>
+                    <div class="grid-container-rows" id="modalSimilarGrid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-player-layer hidden" id="videoPlayerLayer">
+        <video id="mainVideoNode" src=""></video>
+        <div class="video-loader" id="videoLoader"><div class="spinner"></div></div>
+        
+        <div class="player-controls-overlay" id="playerControls">
+            <div class="player-header">
+                <button class="back-from-player-btn" id="exitPlayerBtn"><i class="fas fa-arrow-left"></i> Back to SAVEAN</button>
+                <div class="player-title-block">
+                    <h2 id="playerMovieTitle">Movie Playback Stream</h2>
+                    <span id="playerMovieSubtitle">Streaming in Ultra HD 4K</span>
+                </div>
+            </div>
+
+            <button class="player-floating-btn skip-intro-btn hidden" id="skipIntroBtn">Skip Intro <i class="fas fa-forward"></i></button>
+            <button class="player-floating-btn next-episode-btn hidden" id="nextEpisodeBtn">Next Segment <i class="fas fa-step-forward"></i></button>
+
+            <div class="player-bottom-controls">
+                <div class="progress-bar-container" id="progressBarContainer">
+                    <div class="progress-buffered" id="progressBuffered"></div>
+                    <div class="progress-timeline" id="progressTimeline"></div>
+                    <div class="progress-handle" id="progressHandle"></div>
+                </div>
+                <div class="controls-row">
+                    <div class="controls-left">
+                        <button class="ctrl-btn" id="playPauseBtn"><i class="fas fa-play"></i></button>
+                        <button class="ctrl-btn" id="rewindBtn"><i class="fas fa-backward"></i></button>
+                        <button class="ctrl-btn" id="forwardBtn"><i class="fas fa-forward"></i></button>
+                        <div class="volume-block">
+                            <button class="ctrl-btn" id="volumeMuteBtn"><i class="fas fa-volume-up"></i></button>
+                            <input type="range" min="0" max="1" step="0.1" value="0.8" id="volumeSlider" class="vol-range">
+                        </div>
+                        <span class="time-display" id="playerTimeDisplay">00:00 / 00:00</span>
+                    </div>
+                    <div class="controls-right">
+                        <button class="ctrl-btn" id="pipBtn" title="Picture in Picture"><i class="fas fa-images"></i></button>
+                        
+                        <div class="ctrl-dropdown-wrapper">
+                            <button class="ctrl-btn" id="speedBtn" title="Playback Speed"><i class="fas fa-tachometer-alt"></i></button>
+                            <div class="ctrl-dropdown" id="speedDropdown">
+                                <span data-speed="0.5">0.5x</span>
+                                <span data-speed="1" class="active">Normal</span>
+                                <span data-speed="1.5">1.5x</span>
+                                <span data-speed="2">2.0x</span>
+                            </div>
+                        </div>
+
+                        <div class="ctrl-dropdown-wrapper">
+                            <button class="ctrl-btn" id="qualityBtn" title="Stream Quality"><i class="fas fa-sliders-h"></i></button>
+                            <div class="ctrl-dropdown" id="qualityDropdown">
+                                <span data-quality="4K">Ultra HD 4K</span>
+                                <span data-quality="1080p" class="active">1080p Full HD</span>
+                                <span data-quality="720p">720p Balanced</span>
+                                <span data-quality="auto">Auto Data Saver</span>
+                            </div>
+                        </div>
+
+                        <button class="ctrl-btn" id="fullscreenBtn"><i class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="back-to-top" id="backToTopBtn"><i class="fas fa-chevron-up"></i></button>
+</body>
+              </html>
